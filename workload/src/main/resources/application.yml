@@ -1,9 +1,12 @@
 server:
-  port: 8082
+  port: 8081
 
 spring:
   application:
     name: workload
+  cloud:
+    compatibility-verifier:
+      enabled: false
 
 eureka:
   client:
