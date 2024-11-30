@@ -13,3 +13,34 @@ eureka:
     service-url:
       defaultZone: http://localhost:8761/eureka/
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,circuitbreakers
+  endpoint:
+    health:
+      show-details: always
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      trainerRepository:
+        register-health-indicator: true
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        minimum-number-of-calls: 5
+      trainerController:
+        register-health-indicator: true
+        sliding-window-size: 10
+        failure-rate-threshold: 50
+        wait-duration-in-open-state: 10s
+        permitted-number-of-calls-in-half-open-state: 3
+        minimum-number-of-calls: 5
+        record-exceptions:
+          - java.lang.Exception
+          - java.lang.RuntimeException
+          - java.lang.Throwable
+        ignore-exceptions: [ ]

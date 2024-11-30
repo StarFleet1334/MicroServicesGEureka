@@ -4,6 +4,7 @@ import com.micro.workload.model.*;
 import com.micro.workload.repository.TrainerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -11,6 +12,9 @@ import java.time.LocalDate;
 @RestController
 @RequestMapping("/trainings")
 public class SecondaryController {
+
+    @Autowired
+    private TrainerRepository trainerRepository;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SecondaryController.class);
 
@@ -28,12 +32,12 @@ public class SecondaryController {
 
     private void updateTrainingSummary(TrainingSessionDTO dto, boolean isAddition) {
         String username = dto.getTrainerUserName();
-        Trainer trainer = TrainerRepository.getTrainer(username);
+        Trainer trainer = trainerRepository.getTrainer(username);
 
         if (trainer == null) {
             if (isAddition) {
                 trainer = new Trainer(username, dto.getTrainerFirstName(), dto.getTrainerLastName(), dto.getIsActive());
-                TrainerRepository.addTrainer(trainer);
+                trainerRepository.addTrainer(trainer);
             } else {
                 return;
             }
