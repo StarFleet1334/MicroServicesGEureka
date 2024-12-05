@@ -17,17 +17,15 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 public class JwtTokenFilter extends OncePerRequestFilter {
-    private static final String SECRET_KEY = "n4G7I/Z5h0pmiNqOtUccZHoOi/Bqi/iMAnyGWtSVGJQ=";
-
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader(SecurityConstants.AUTHORIZATION_HEADER);
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7);
             try {
-                SecretKey secretKey = Keys.hmacShaKeyFor(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+                SecretKey secretKey = Keys.hmacShaKeyFor(SecurityConstants.SECRET_KEY.getBytes(StandardCharsets.UTF_8));
 
                 Claims claims = Jwts.parserBuilder()
                         .setSigningKey(secretKey)
