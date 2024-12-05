@@ -14,7 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-public class CircuitBreakerTest {
+class CircuitBreakerTest {
 
     @SpyBean
     private TrainerRepository trainerRepository;
@@ -23,7 +23,7 @@ public class CircuitBreakerTest {
     private CircuitBreakerRegistry circuitBreakerRegistry;
 
     @Test
-    public void testGetTrainerCircuitBreaker() {
+    void testGetTrainerCircuitBreaker() {
         var circuitBreaker = circuitBreakerRegistry.circuitBreaker("trainerRepository");
         AtomicBoolean fallbackCalled = new AtomicBoolean(false);
         circuitBreaker.getEventPublisher()

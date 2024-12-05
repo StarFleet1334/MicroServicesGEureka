@@ -16,8 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-
-public class TrainerControllerTest {
+class TrainerControllerTest {
 
     @Autowired
     private TrainerController trainerController;
@@ -30,13 +29,13 @@ public class TrainerControllerTest {
 
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         CircuitBreaker circuitBreaker = circuitBreakerRegistry.circuitBreaker("trainerController");
         circuitBreaker.reset();
     }
 
     @Test
-    public void testGetTrainerSummaryCircuitBreaker() {
+    void testGetTrainerSummaryCircuitBreaker() {
         var circuitBreaker = circuitBreakerRegistry.circuitBreaker("trainerController");
         AtomicBoolean fallbackCalled = new AtomicBoolean(false);
         circuitBreaker.getEventPublisher()
