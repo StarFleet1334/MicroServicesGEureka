@@ -1,57 +1,59 @@
 package com.micro.workload.controller;
 
-import com.micro.workload.model.Trainer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.micro.workload.model.base.Trainer;
 import com.micro.workload.repository.TrainerRepository;
-import io.github.resilience4j.circuitbreaker.CircuitBreaker;
-import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.SpyBean;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doReturn;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
-import static org.junit.jupiter.api.Assertions.*;
-
-@SpringBootTest
+@WebMvcTest(TrainerController.class)
 class TrainerControllerTest {
 
     @Autowired
-    private TrainerController trainerController;
+    private MockMvc mockMvc;
 
-    @SpyBean
+    @MockBean
     private TrainerRepository trainerRepository;
 
     @Autowired
-    private CircuitBreakerRegistry circuitBreakerRegistry;
-
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
-        CircuitBreaker circuitBreaker = circuitBreakerRegistry.circuitBreaker("trainerController");
-        circuitBreaker.reset();
     }
 
     @Test
-    void testGetTrainerSummaryCircuitBreaker() {
-        var circuitBreaker = circuitBreakerRegistry.circuitBreaker("trainerController");
-        AtomicBoolean fallbackCalled = new AtomicBoolean(false);
-        circuitBreaker.getEventPublisher()
-                .onCallNotPermitted(event -> fallbackCalled.set(true));
-        Mockito.doThrow(new RuntimeException("Simulated service failure"))
-                .when(trainerRepository).getTrainer(Mockito.anyString());
-        for (int i = 0; i < 15; i++) {
-            try {
-                trainerController.getTrainerSummary("testUser");
-            } catch (RuntimeException ignored) {
-            }
-        }
+    void testGetTrainerSummary() throws Exception {
+        Trainer expectedTrainer = new Trainer();
+        expectedTrainer.setUsername("testUser");
+        expectedTrainer.setFirstName("John");
+        expectedTrainer.setLastName("Doe");
 
-        Trainer result = trainerController.getTrainerSummary("testUser");
-        assertTrue(fallbackCalled.get(), "Circuit Breaker did not prevent the call");
-        assertNull(result, "Fallback method did not return null as expected");
+        doReturn(expectedTrainer).when(trainerRepository).getTrainer(anyString());
+
+        mockMvc.perform(get("/trainers/testUser")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().json(objectMapper.writeValueAsString(expectedTrainer)));
+    }
+
+    @Test
+    void testGetTrainerSummaryNotFound() throws Exception {
+        doReturn(null).when(trainerRepository).getTrainer(anyString());
+
+        mockMvc.perform(get("/trainers/testUser")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
     }
 
 }

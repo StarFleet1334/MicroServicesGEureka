@@ -1,7 +1,7 @@
 package com.micro.workload.controller;
 
-import com.micro.workload.model.Trainer;
-import com.micro.workload.repository.TrainerRepository;
+import com.micro.workload.model.base.Trainer;
+import com.micro.workload.service.TrainerService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +22,12 @@ public class TrainerController {
     private static Logger LOGGER = LoggerFactory.getLogger(TrainerController.class);
 
     @Autowired
-    private TrainerRepository trainerRepository;
+    private TrainerService trainerService;
 
     @CircuitBreaker(name = "trainerController", fallbackMethod = "fallbackGetTrainerSummary")
     @GetMapping("/{username}")
     public Trainer getTrainerSummary(@PathVariable String username) {
-        Trainer trainer = trainerRepository.getTrainer(username);
+        Trainer trainer = trainerService.getTrainerSummary(username);
         if (trainer == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Trainer not found");
         }
@@ -37,7 +37,7 @@ public class TrainerController {
     @CircuitBreaker(name = "trainerController", fallbackMethod = "fallbackGetAllTrainers")
     @GetMapping
     public Collection<Trainer> getAllTrainers() {
-        return TrainerRepository.getAllTrainers().values();
+        return trainerService.getAllTrainers();
     }
 
     public Trainer fallbackGetTrainerSummary(String username, Throwable throwable) {

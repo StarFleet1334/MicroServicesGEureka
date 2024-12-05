@@ -1,4 +1,4 @@
-package com.micro.workload.model;
+package com.micro.workload.model.base;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;

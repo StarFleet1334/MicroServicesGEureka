@@ -1,4 +1,4 @@
-package com.micro.workload.model;
+package com.micro.workload.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;

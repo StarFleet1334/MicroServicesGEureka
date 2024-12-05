@@ -1,6 +1,6 @@
 package com.micro.workload.repository;
 
-import com.micro.workload.model.Trainer;
+import com.micro.workload.model.base.Trainer;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +21,11 @@ public class TrainerRepository {
         trainers.putIfAbsent(trainer.getUsername(), trainer);
     }
 
-    public static void removeTrainer(String username) {
+    public void removeTrainer(String username) {
         trainers.remove(username);
     }
 
-    public static Map<String, Trainer> getAllTrainers() {
+    public Map<String, Trainer> getAllTrainers() {
         return trainers;
     }
 

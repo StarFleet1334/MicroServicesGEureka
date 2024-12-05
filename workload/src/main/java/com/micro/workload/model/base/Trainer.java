@@ -1,4 +1,4 @@
-package com.micro.workload.model;
+package com.micro.workload.model.base;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -9,6 +9,10 @@ public class Trainer {
     private String lastName;
     private boolean status;
     private Map<Integer, YearSummary> yearSummaries = new ConcurrentHashMap<>();
+
+    public Trainer() {
+
+    }
 
     public Trainer(String username, String firstName, String lastName, boolean status) {
         this.username = username;

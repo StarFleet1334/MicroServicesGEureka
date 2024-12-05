@@ -1,4 +1,4 @@
-package com.micro.workload.model;
+package com.micro.workload.model.base;
 
 public class MonthSummary {
     private int month;
