@@ -45,7 +45,7 @@ class TrainerControllerTest {
         for (int i = 0; i < 15; i++) {
             try {
                 trainerController.getTrainerSummary("testUser");
-            } catch (Exception ignored) {
+            } catch (RuntimeException ignored) {
             }
         }
 

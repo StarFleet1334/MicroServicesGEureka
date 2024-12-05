@@ -34,7 +34,8 @@ class CircuitBreakerTest {
         for (int i = 0; i < 15; i++) {
             try {
                 trainerRepository.getTrainer("testUser");
-            } catch (Exception ignored) {
+            } catch (RuntimeException ignored) {
+
             }
         }
         trainerRepository.getTrainer("testUser");
