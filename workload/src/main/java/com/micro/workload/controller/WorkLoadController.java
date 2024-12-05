@@ -11,12 +11,12 @@ import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/trainings")
-public class SecondaryController {
+public class WorkLoadController {
 
     @Autowired
     private TrainerRepository trainerRepository;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SecondaryController.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WorkLoadController.class);
 
     @PostMapping
     public void trainingAdded(@RequestBody TrainingSessionDTO trainingSessionDTO) {
