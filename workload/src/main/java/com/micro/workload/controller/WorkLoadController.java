@@ -18,7 +18,9 @@ public class WorkLoadController {
 
 
     @PostMapping
-    public void handleTraining(@RequestBody TrainingSessionDTO trainingSessionDTO) {
+    public void handleTraining(@RequestBody TrainingSessionDTO trainingSessionDTO,
+                               @RequestHeader("Transaction-ID") String transactionId) {
+        LOGGER.info("Received training event with Transaction ID: {} - {}", transactionId, trainingSessionDTO);
         switch (trainingSessionDTO.getAction()) {
             case "add":
                 LOGGER.info("Received training added event: {}", trainingSessionDTO);

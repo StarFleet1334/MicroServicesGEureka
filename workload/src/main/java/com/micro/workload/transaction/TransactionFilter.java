@@ -1,7 +1,7 @@
 package com.micro.workload.transaction;
 
-
 import jakarta.servlet.*;
+import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,9 +16,13 @@ public class TransactionFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
-        String transactionId = UUID.randomUUID().toString();
-        TransactionIdHolder.setTransactionId(transactionId);
+        HttpServletRequest httpRequest = (HttpServletRequest) request;
+        String transactionId = httpRequest.getHeader("Transaction-ID");
+        if (transactionId == null || transactionId.trim().isEmpty()) {
+            transactionId = UUID.randomUUID().toString();
+        }
 
+        TransactionIdHolder.setTransactionId(transactionId);
         try {
             LOGGER.info("Starting transaction with ID: {}", transactionId);
             chain.doFilter(request, response);
