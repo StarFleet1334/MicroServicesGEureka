@@ -3,23 +3,24 @@ package com.micro.workload.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.workload.model.dto.TrainingSessionDTO;
 import com.micro.workload.service.WorkLoadService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.time.LocalDate;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.verify;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(WorkLoadController.class)
-class WorkLoadControllerTest {
+@AutoConfigureMockMvc
+public class WorkLoadControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -30,50 +31,45 @@ class WorkLoadControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    @BeforeEach
-    void setUp() {
-    }
-
+    @WithMockUser(username="ADMIN", roles={"USER","ADMIN"})
     @Test
-    @WithMockUser(username="admin", roles={"USER", "ADMIN"})
-    void trainingAddedSuccessfully() throws Exception {
-        TrainingSessionDTO dto = new TrainingSessionDTO();
-        dto.setTrainerUserName("jdoe");
-        dto.setTrainerFirstName("John");
-        dto.setTrainerLastName("Doe");
-        dto.setIsActive(true);
-        dto.setTrainingDate(LocalDate.now());
-        dto.setTrainingDuration(120.0);
-
-        doNothing().when(workLoadService).trainingAdded(any(TrainingSessionDTO.class));
+    public void testHandleTraining_ValidAddAction() throws Exception {
+        TrainingSessionDTO trainingSessionDTO = new TrainingSessionDTO();
+        trainingSessionDTO.setTrainerUserName("john_doe");
+        trainingSessionDTO.setTrainerFirstName("John");
+        trainingSessionDTO.setTrainerLastName("Doe");
+        trainingSessionDTO.setIsActive(true);
+        trainingSessionDTO.setTrainingDate(LocalDate.now());
+        trainingSessionDTO.setTrainingDuration(2);
+        trainingSessionDTO.setAction("add");
 
         mockMvc.perform(post("/trainings")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
+                        .content(objectMapper.writeValueAsString(trainingSessionDTO)))
                 .andExpect(status().isOk());
 
-        verify(workLoadService).trainingAdded(any(TrainingSessionDTO.class));
+        Mockito.verify(workLoadService).trainingAdded(Mockito.any(TrainingSessionDTO.class));
     }
 
-
+    @WithMockUser(username="ADMIN", roles={"USER","ADMIN"})
     @Test
-    @WithMockUser(username="admin", roles={"USER", "ADMIN"})
-    void trainingDeletedSuccessfully() throws Exception {
-        TrainingSessionDTO dto = new TrainingSessionDTO();
-        dto.setTrainerUserName("jdoe");
-        dto.setTrainerFirstName("John");
-        dto.setTrainerLastName("Doe");
-        dto.setIsActive(true);
-        dto.setTrainingDate(LocalDate.now());
-        dto.setTrainingDuration(120.0);
+    public void testHandleTraining_ValidDeleteAction() throws Exception {
+        TrainingSessionDTO trainingSessionDTO = new TrainingSessionDTO();
+        trainingSessionDTO.setTrainerUserName("jane_doe");
+        trainingSessionDTO.setTrainerFirstName("Jane");
+        trainingSessionDTO.setTrainerLastName("Doe");
+        trainingSessionDTO.setIsActive(false);
+        trainingSessionDTO.setTrainingDate(LocalDate.now().minusDays(1));
+        trainingSessionDTO.setTrainingDuration(1);
+        trainingSessionDTO.setAction("delete");
 
-        doNothing().when(workLoadService).trainingDeleted(any(TrainingSessionDTO.class));
-
-        mockMvc.perform(delete("/trainings")
+        mockMvc.perform(post("/trainings")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(dto)))
+                        .content(objectMapper.writeValueAsString(trainingSessionDTO)))
                 .andExpect(status().isOk());
 
-        verify(workLoadService).trainingDeleted(any(TrainingSessionDTO.class));
+        Mockito.verify(workLoadService).trainingDeleted(Mockito.any(TrainingSessionDTO.class));
     }
+
+
 }

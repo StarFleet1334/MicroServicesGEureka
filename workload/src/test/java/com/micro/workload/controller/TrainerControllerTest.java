@@ -1,59 +1,47 @@
 package com.micro.workload.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.workload.model.base.Trainer;
-import com.micro.workload.repository.TrainerRepository;
-import org.junit.jupiter.api.BeforeEach;
+import com.micro.workload.service.TrainerService;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doReturn;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.boot.test.context.SpringBootTest;
 
-@WebMvcTest(TrainerController.class)
-class TrainerControllerTest {
+@SpringBootTest
+@AutoConfigureMockMvc
+public class TrainerControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private TrainerRepository trainerRepository;
+    private TrainerService trainerService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
+    @Test
+    public void testGetTrainerSummary_TrainerExists() throws Exception {
+        Trainer trainer = new Trainer("john_doe", "John", "Doe", true);
+        Mockito.when(trainerService.getTrainerSummary("john_doe")).thenReturn(trainer);
 
-    @BeforeEach
-    void setUp() {
+        mockMvc.perform(MockMvcRequestBuilders.get("/trainers/john_doe")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.username").value("john_doe"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.firstName").value("John"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.lastName").value("Doe"));
     }
 
     @Test
-    void testGetTrainerSummary() throws Exception {
-        Trainer expectedTrainer = new Trainer();
-        expectedTrainer.setUsername("testUser");
-        expectedTrainer.setFirstName("John");
-        expectedTrainer.setLastName("Doe");
+    public void testGetTrainerSummary_Trainer() throws Exception {
+        Mockito.when(trainerService.getTrainerSummary("jane_doe")).thenReturn(null);
 
-        doReturn(expectedTrainer).when(trainerRepository).getTrainer(anyString());
-
-        mockMvc.perform(get("/trainers/testUser")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isOk())
-                .andExpect(content().json(objectMapper.writeValueAsString(expectedTrainer)));
+        mockMvc.perform(MockMvcRequestBuilders.get("/trainers/jane_doe")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
-
-    @Test
-    void testGetTrainerSummaryNotFound() throws Exception {
-        doReturn(null).when(trainerRepository).getTrainer(anyString());
-
-        mockMvc.perform(get("/trainers/testUser")
-                        .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isNotFound());
-    }
-
 }

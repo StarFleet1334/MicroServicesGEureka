@@ -26,6 +26,9 @@ public class TrainingSessionDTO {
     @NotNull(message = "Training duration is required")
     private Number trainingDuration;
 
+    @NotNull(message = "Training action is required")
+    private String action;
+
 
     public String getTrainerUserName() {
         return trainerUserName;
@@ -75,6 +78,22 @@ public class TrainingSessionDTO {
         this.trainingDuration = trainingDuration;
     }
 
+    public String getAction() {
+        return action;
+    }
+
+    public Boolean getActive() {
+        return isActive;
+    }
+
+    public void setActive(Boolean active) {
+        isActive = active;
+    }
+
+    public void setAction(String action) {
+        this.action = action;
+    }
+
     @Override
     public String toString() {
         return "TrainingSessionDTO{" +
@@ -84,6 +103,7 @@ public class TrainingSessionDTO {
                 ", isActive=" + isActive +
                 ", trainingDate=" + trainingDate +
                 ", trainingDuration=" + trainingDuration +
+                ", action='" + action + '\'' +
                 '}';
     }
 }

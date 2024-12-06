@@ -16,17 +16,20 @@ public class WorkLoadController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkLoadController.class);
 
+
     @PostMapping
-    public void trainingAdded(@RequestBody TrainingSessionDTO trainingSessionDTO) {
-        LOGGER.info("Received training added event: {}", trainingSessionDTO);
-        workLoadService.trainingAdded(trainingSessionDTO);
+    public void handleTraining(@RequestBody TrainingSessionDTO trainingSessionDTO) {
+        switch (trainingSessionDTO.getAction()) {
+            case "add":
+                LOGGER.info("Received training added event: {}", trainingSessionDTO);
+                workLoadService.trainingAdded(trainingSessionDTO);
+                break;
+            case "delete":
+                LOGGER.info("Received training deleted event: {}", trainingSessionDTO);
+                workLoadService.trainingDeleted(trainingSessionDTO);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid action specified");
+        }
     }
-
-    @DeleteMapping
-    public void trainingDeleted(@RequestBody TrainingSessionDTO trainingSessionDTO) {
-        LOGGER.info("Received training deleted event: {}", trainingSessionDTO);
-        workLoadService.trainingDeleted(trainingSessionDTO);
-    }
-
-
 }
