@@ -17,7 +17,7 @@ public class TransactionFilter implements Filter {
             throws IOException, ServletException {
 
         HttpServletRequest httpRequest = (HttpServletRequest) request;
-        String transactionId = httpRequest.getHeader("Transaction-ID");
+        String transactionId = httpRequest.getHeader("TransactionID");
         if (transactionId == null || transactionId.trim().isEmpty()) {
             transactionId = UUID.randomUUID().toString();
         }

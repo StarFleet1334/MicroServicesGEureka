@@ -40,6 +40,13 @@ dependencies {
     implementation 'io.github.resilience4j:resilience4j-circuitbreaker:2.0.2'
     testImplementation 'org.mockito:mockito-core:5.4.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.4.0'
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-activemq
+    implementation 'org.apache.activemq:artemis-jakarta-client:2.31.0'
+
+
+    // ActiveMQ dependencies
+    implementation 'org.springframework.boot:spring-boot-starter-activemq:3.4.0'
+
 
 }
 
