@@ -38,7 +38,7 @@ public class WorkLoadControllerTest {
         trainingSessionDTO.setTrainerUserName("john_doe");
         trainingSessionDTO.setTrainerFirstName("John");
         trainingSessionDTO.setTrainerLastName("Doe");
-        trainingSessionDTO.setIsActive(true);
+        trainingSessionDTO.setActive(true);
         trainingSessionDTO.setTrainingDate(LocalDate.now());
         trainingSessionDTO.setTrainingDuration(2);
         trainingSessionDTO.setAction("add");
@@ -58,7 +58,7 @@ public class WorkLoadControllerTest {
         trainingSessionDTO.setTrainerUserName("jane_doe");
         trainingSessionDTO.setTrainerFirstName("Jane");
         trainingSessionDTO.setTrainerLastName("Doe");
-        trainingSessionDTO.setIsActive(false);
+        trainingSessionDTO.setActive(false);
         trainingSessionDTO.setTrainingDate(LocalDate.now().minusDays(1));
         trainingSessionDTO.setTrainingDuration(1);
         trainingSessionDTO.setAction("delete");
