@@ -33,7 +33,7 @@ public class WorkLoadService {
 
         if (trainer == null) {
             if (isAddition) {
-                trainer = new Trainer(username, dto.getTrainerFirstName(), dto.getTrainerLastName(), dto.getIsActive());
+                trainer = new Trainer(username, dto.getTrainerFirstName(), dto.getTrainerLastName(), dto.getActive());
                 trainerRepository.addTrainer(trainer);
             } else {
                 return;
