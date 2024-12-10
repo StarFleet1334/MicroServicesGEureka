@@ -2,7 +2,7 @@ package com.micro.workload.config;
 
 import com.micro.workload.utils.ActiveMQConstants;
 import jakarta.jms.ConnectionFactory;
-import org.apache.activemq.artemis.jms.client.ActiveMQJMSConnectionFactory;
+import org.apache.activemq.ActiveMQConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -17,9 +17,9 @@ public class JmsConfig {
     @Bean
     @Primary
     public ConnectionFactory connectionFactory() {
-
-        ActiveMQJMSConnectionFactory cf = new ActiveMQJMSConnectionFactory(ActiveMQConstants.BROKER_URL, ActiveMQConstants.USER, ActiveMQConstants.PASSWORD);
-        cf.setReconnectAttempts(-1);
+        ActiveMQConnectionFactory cf = new ActiveMQConnectionFactory(ActiveMQConstants.BROKER_URL);
+        cf.setUserName(ActiveMQConstants.USER);
+        cf.setPassword(ActiveMQConstants.PASSWORD);
         return cf;
     }
 

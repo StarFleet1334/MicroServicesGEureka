@@ -9,8 +9,8 @@ spring:
       enabled: false
   activemq:
     broker-url: tcp://localhost:61616
-    user: artemis
-    password: simply-artemis
+    user: admin
+    password: admin
     packages:
       trust-all: true
 
