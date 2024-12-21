@@ -29,7 +29,8 @@ public class WorkLoadService {
 
     private void updateTrainingSummary(TrainingSessionDTO dto, boolean isAddition) {
         String username = dto.getTrainerUserName();
-        Trainer trainer = trainerRepository.getTrainer(username);
+        Trainer trainer = trainerRepository.getTrainer(username)
+                .orElseThrow(() -> new IllegalArgumentException("Trainer not found for username: " + username));
 
         if (trainer == null) {
             if (isAddition) {

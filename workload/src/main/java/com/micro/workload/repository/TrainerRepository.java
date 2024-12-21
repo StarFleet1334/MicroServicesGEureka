@@ -5,6 +5,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -12,8 +13,8 @@ public class TrainerRepository {
     private static Map<String, Trainer> trainers = new ConcurrentHashMap<>();
 
     @CircuitBreaker(name = "trainerRepository", fallbackMethod = "fallbackGetTrainer")
-    public Trainer getTrainer(String username) {
-        return trainers.get(username);
+    public Optional<Trainer> getTrainer(String username) {
+        return Optional.ofNullable(trainers.get(username));
     }
 
     @CircuitBreaker(name = "trainerRepository", fallbackMethod = "fallbackAddTrainer")
@@ -21,19 +22,8 @@ public class TrainerRepository {
         trainers.putIfAbsent(trainer.getUsername(), trainer);
     }
 
-    public void removeTrainer(String username) {
-        trainers.remove(username);
-    }
-
-    public Map<String, Trainer> getAllTrainers() {
-        return trainers;
-    }
-
-    public Trainer fallbackGetTrainer(String username, Throwable throwable) {
-        return null;
-    }
-
-    public void fallbackAddTrainer(Trainer trainer, Throwable throwable) {
+    public Optional<Map<String, Trainer>> getAllTrainers() {
+        return Optional.ofNullable(trainers);
     }
 
 }

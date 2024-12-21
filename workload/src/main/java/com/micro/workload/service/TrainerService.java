@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Map;
 
 @Service
 public class TrainerService {
@@ -16,11 +18,14 @@ public class TrainerService {
     private TrainerRepository trainerRepository;
 
     public Trainer getTrainerSummary(String username) {
-        return trainerRepository.getTrainer(username);
+        return trainerRepository.getTrainer(username)
+                .orElseThrow(() -> new IllegalArgumentException("Trainer not found for username: " + username));
     }
 
     public Collection<Trainer> getAllTrainers() {
-        return trainerRepository.getAllTrainers().values();
+        return trainerRepository.getAllTrainers()
+                .map(Map::values)
+                .orElseGet(Collections::emptyList);
     }
 
 }
