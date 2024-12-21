@@ -7,7 +7,6 @@ import com.micro.workload.model.base.YearSummary;
 import com.micro.workload.repository.TrainerRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -16,8 +15,11 @@ import java.time.LocalDate;
 public class WorkLoadService {
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkLoadService.class);
 
-    @Autowired
-    private TrainerRepository trainerRepository;
+    private final TrainerRepository trainerRepository;
+
+    public WorkLoadService(TrainerRepository trainerRepository) {
+        this.trainerRepository = trainerRepository;
+    }
 
     public void trainingAdded(TrainingSessionDTO trainingSessionDTO) {
         updateTrainingSummary(trainingSessionDTO, true);
