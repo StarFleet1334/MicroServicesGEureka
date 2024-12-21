@@ -15,7 +15,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class TrainerControllerTest {
+class TrainerControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -24,7 +24,7 @@ public class TrainerControllerTest {
     private TrainerService trainerService;
 
     @Test
-    public void testGetTrainerSummary_TrainerExists() throws Exception {
+    void testGetTrainerSummary_TrainerExists() throws Exception {
         Trainer trainer = new Trainer("john_doe", "John", "Doe", true);
         Mockito.when(trainerService.getTrainerSummary("john_doe")).thenReturn(trainer);
 
@@ -37,7 +37,7 @@ public class TrainerControllerTest {
     }
 
     @Test
-    public void testGetTrainerSummary_Trainer() throws Exception {
+    void testGetTrainerSummary_Trainer() throws Exception {
         Mockito.when(trainerService.getTrainerSummary("jane_doe")).thenReturn(null);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/trainers/jane_doe")

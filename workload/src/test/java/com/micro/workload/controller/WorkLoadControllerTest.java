@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(WorkLoadController.class)
 @AutoConfigureMockMvc
-public class WorkLoadControllerTest {
+class WorkLoadControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -33,7 +33,7 @@ public class WorkLoadControllerTest {
 
     @WithMockUser(username="ADMIN", roles={"USER","ADMIN"})
     @Test
-    public void testHandleTraining_ValidAddAction() throws Exception {
+    void testHandleTraining_ValidAddAction() throws Exception {
         TrainingSessionDTO trainingSessionDTO = new TrainingSessionDTO();
         trainingSessionDTO.setTrainerUserName("john_doe");
         trainingSessionDTO.setTrainerFirstName("John");
@@ -53,7 +53,7 @@ public class WorkLoadControllerTest {
 
     @WithMockUser(username="ADMIN", roles={"USER","ADMIN"})
     @Test
-    public void testHandleTraining_ValidDeleteAction() throws Exception {
+    void testHandleTraining_ValidDeleteAction() throws Exception {
         TrainingSessionDTO trainingSessionDTO = new TrainingSessionDTO();
         trainingSessionDTO.setTrainerUserName("jane_doe");
         trainingSessionDTO.setTrainerFirstName("Jane");
