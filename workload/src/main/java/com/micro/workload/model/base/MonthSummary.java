@@ -1,5 +1,13 @@
 package com.micro.workload.model.base;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MonthSummary {
     private int month;
     private int totalDuration;
@@ -7,14 +15,6 @@ public class MonthSummary {
     public MonthSummary(int month) {
         this.month = month;
         this.totalDuration = 0;
-    }
-
-    public int getMonth() {
-        return month;
-    }
-
-    public int getTotalDuration() {
-        return totalDuration;
     }
 
     public synchronized void addDuration(int duration) {

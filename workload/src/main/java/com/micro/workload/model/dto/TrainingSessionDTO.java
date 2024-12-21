@@ -3,9 +3,13 @@ package com.micro.workload.model.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.*;
 
 import java.time.LocalDate;
 
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class TrainingSessionDTO {
     @NotBlank(message = "Trainer userName is required")
     private String trainerUserName;
@@ -30,50 +34,6 @@ public class TrainingSessionDTO {
     private String action;
 
 
-    public String getTrainerUserName() {
-        return trainerUserName;
-    }
-
-    public void setTrainerUserName(String trainerUserName) {
-        this.trainerUserName = trainerUserName;
-    }
-
-    public String getTrainerFirstName() {
-        return trainerFirstName;
-    }
-
-    public void setTrainerFirstName(String trainerFirstName) {
-        this.trainerFirstName = trainerFirstName;
-    }
-
-    public String getTrainerLastName() {
-        return trainerLastName;
-    }
-
-    public void setTrainerLastName(String trainerLastName) {
-        this.trainerLastName = trainerLastName;
-    }
-
-    public LocalDate getTrainingDate() {
-        return trainingDate;
-    }
-
-    public void setTrainingDate(LocalDate trainingDate) {
-        this.trainingDate = trainingDate;
-    }
-
-    public Number getTrainingDuration() {
-        return trainingDuration;
-    }
-
-    public void setTrainingDuration(Number trainingDuration) {
-        this.trainingDuration = trainingDuration;
-    }
-
-    public String getAction() {
-        return action;
-    }
-
     public Boolean getActive() {
         return isActive;
     }
@@ -82,20 +42,4 @@ public class TrainingSessionDTO {
         isActive = active;
     }
 
-    public void setAction(String action) {
-        this.action = action;
-    }
-
-    @Override
-    public String toString() {
-        return "TrainingSessionDTO{" +
-                "trainerUserName='" + trainerUserName + '\'' +
-                ", trainerFirstName='" + trainerFirstName + '\'' +
-                ", trainerLastName='" + trainerLastName + '\'' +
-                ", isActive=" + isActive +
-                ", trainingDate=" + trainingDate +
-                ", trainingDuration=" + trainingDuration +
-                ", action='" + action + '\'' +
-                '}';
-    }
 }
