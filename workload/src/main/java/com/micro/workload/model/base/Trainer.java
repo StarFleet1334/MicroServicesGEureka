@@ -3,6 +3,8 @@ package com.micro.workload.model.base;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -10,7 +12,9 @@ import java.util.concurrent.ConcurrentHashMap;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Document(collection = "trainers")
 public class Trainer {
+    @Id
     private String username;
     private String firstName;
     private String lastName;

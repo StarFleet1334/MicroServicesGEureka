@@ -1,9 +1,9 @@
 package com.micro.workload.messaging;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.micro.workload.controller.WorkLoadController;
 import com.micro.workload.model.dto.TrainingSessionDTO;
-import com.micro.workload.service.WorkLoadService;
+import com.micro.workload.service.impl.MongoDbWorkloadService;
+import com.micro.workload.service.impl.WorkLoadService;
 import com.micro.workload.utils.ActiveMQConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,11 +18,13 @@ public class JmsConsumer {
 
     private final ObjectMapper objectMapper;
     private final WorkLoadService workLoadService;
+    private final MongoDbWorkloadService mongoDbWorkloadService;
 
     @Autowired
-    public JmsConsumer(ObjectMapper objectMapper, WorkLoadService workLoadService) {
+    public JmsConsumer(ObjectMapper objectMapper, WorkLoadService workLoadService, MongoDbWorkloadService mongoDbWorkloadService) {
         this.objectMapper = objectMapper;
         this.workLoadService = workLoadService;
+        this.mongoDbWorkloadService = mongoDbWorkloadService;
     }
 
     @JmsListener(destination = ActiveMQConstants.TRAININGS_QUEUE, containerFactory = "jmsListenerContainerFactory")
@@ -35,10 +37,12 @@ public class JmsConsumer {
                 case "add":
                     LOGGER.info("Received training added event: {}", dto);
                     workLoadService.trainingAdded(dto);
+                    mongoDbWorkloadService.trainingAdded(dto);
                     break;
                 case "delete":
                     LOGGER.info("Received training deleted event: {}", dto);
                     workLoadService.trainingDeleted(dto);
+                    mongoDbWorkloadService.trainingDeleted(dto);
                     break;
                 default:
                     throw new IllegalArgumentException("Invalid action specified");

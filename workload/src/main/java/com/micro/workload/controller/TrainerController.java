@@ -1,7 +1,7 @@
 package com.micro.workload.controller;
 
 import com.micro.workload.model.base.Trainer;
-import com.micro.workload.service.TrainerService;
+import com.micro.workload.service.impl.TrainerService;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

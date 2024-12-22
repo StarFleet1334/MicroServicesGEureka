@@ -1,10 +1,11 @@
-package com.micro.workload.service;
+package com.micro.workload.service.impl;
 
 import com.micro.workload.model.base.MonthSummary;
 import com.micro.workload.model.base.Trainer;
 import com.micro.workload.model.dto.TrainingSessionDTO;
 import com.micro.workload.model.base.YearSummary;
 import com.micro.workload.repository.TrainerRepository;
+import com.micro.workload.service.base.BaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 
 @Service
-public class WorkLoadService {
+public class WorkLoadService implements BaseService {
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkLoadService.class);
 
     private final TrainerRepository trainerRepository;
@@ -21,18 +22,10 @@ public class WorkLoadService {
         this.trainerRepository = trainerRepository;
     }
 
-    public void trainingAdded(TrainingSessionDTO trainingSessionDTO) {
-        updateTrainingSummary(trainingSessionDTO, true);
-    }
-
-    public void trainingDeleted(TrainingSessionDTO trainingSessionDTO) {
-        updateTrainingSummary(trainingSessionDTO, false);
-    }
-
-    private void updateTrainingSummary(TrainingSessionDTO dto, boolean isAddition) {
+    public void updateTrainingSummary(TrainingSessionDTO dto, boolean isAddition) {
         String username = dto.getTrainerUserName();
         Trainer trainer = trainerRepository.getTrainer(username)
-                .orElseThrow(() -> new IllegalArgumentException("Trainer not found for username: " + username));
+                .orElse(null);
 
         if (trainer == null) {
             if (isAddition) {

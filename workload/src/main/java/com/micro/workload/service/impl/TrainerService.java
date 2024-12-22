@@ -1,4 +1,4 @@
-package com.micro.workload.service;
+package com.micro.workload.service.impl;
 
 import com.micro.workload.model.base.Trainer;
 import com.micro.workload.repository.TrainerRepository;

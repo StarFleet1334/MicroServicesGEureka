@@ -2,7 +2,7 @@ package com.micro.workload.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.workload.model.dto.TrainingSessionDTO;
-import com.micro.workload.service.WorkLoadService;
+import com.micro.workload.service.impl.WorkLoadService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

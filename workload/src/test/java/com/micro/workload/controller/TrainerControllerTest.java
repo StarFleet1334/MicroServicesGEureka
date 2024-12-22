@@ -1,7 +1,7 @@
 package com.micro.workload.controller;
 
 import com.micro.workload.model.base.Trainer;
-import com.micro.workload.service.TrainerService;
+import com.micro.workload.service.impl.TrainerService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

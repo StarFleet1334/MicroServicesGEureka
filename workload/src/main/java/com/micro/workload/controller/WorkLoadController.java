@@ -1,7 +1,7 @@
 package com.micro.workload.controller;
 
 import com.micro.workload.model.dto.TrainingSessionDTO;
-import com.micro.workload.service.WorkLoadService;
+import com.micro.workload.service.impl.WorkLoadService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
