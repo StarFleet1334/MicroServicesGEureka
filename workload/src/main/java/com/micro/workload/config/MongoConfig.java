@@ -21,13 +21,13 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
 
     @Override
     protected String getDatabaseName() {
-        return databaseName;
+        return "workloadDB";
     }
 
     @Bean
     @Override
     public MongoClient mongoClient() {
-        return MongoClients.create(mongoUri);
+        return MongoClients.create("mongodb://localhost:27017/workloadDB");
     }
 
     @Override
