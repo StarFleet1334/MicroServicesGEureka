@@ -13,7 +13,9 @@ spring:
     password: admin
     packages:
       trust-all: true
-
+  mongodb:
+    uri: mongodb://localhost:27017/workloadDB
+    database: workloadDB
 eureka:
   client:
     service-url:

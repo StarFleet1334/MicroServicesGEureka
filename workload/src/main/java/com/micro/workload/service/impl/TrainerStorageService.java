@@ -1,4 +1,4 @@
-package com.micro.workload.repository;
+package com.micro.workload.service.impl;
 
 import com.micro.workload.model.base.Trainer;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
@@ -9,7 +9,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-public class TrainerRepository {
+public class TrainerStorageService {
     private static Map<String, Trainer> trainers = new ConcurrentHashMap<>();
 
     @CircuitBreaker(name = "trainerRepository", fallbackMethod = "fallbackGetTrainer")

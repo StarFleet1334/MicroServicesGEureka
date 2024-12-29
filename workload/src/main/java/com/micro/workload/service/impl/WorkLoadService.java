@@ -4,7 +4,6 @@ import com.micro.workload.model.base.MonthSummary;
 import com.micro.workload.model.base.Trainer;
 import com.micro.workload.model.dto.TrainingSessionDTO;
 import com.micro.workload.model.base.YearSummary;
-import com.micro.workload.repository.TrainerRepository;
 import com.micro.workload.service.base.BaseService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,21 +15,21 @@ import java.time.LocalDate;
 public class WorkLoadService implements BaseService {
     private static final Logger LOGGER = LoggerFactory.getLogger(WorkLoadService.class);
 
-    private final TrainerRepository trainerRepository;
+    private final TrainerStorageService trainerStorageService;
 
-    public WorkLoadService(TrainerRepository trainerRepository) {
-        this.trainerRepository = trainerRepository;
+    public WorkLoadService(TrainerStorageService trainerStorageService) {
+        this.trainerStorageService = trainerStorageService;
     }
 
     public void updateTrainingSummary(TrainingSessionDTO dto, boolean isAddition) {
         String username = dto.getTrainerUserName();
-        Trainer trainer = trainerRepository.getTrainer(username)
+        Trainer trainer = trainerStorageService.getTrainer(username)
                 .orElse(null);
 
         if (trainer == null) {
             if (isAddition) {
                 trainer = new Trainer(username, dto.getTrainerFirstName(), dto.getTrainerLastName(), dto.getActive());
-                trainerRepository.addTrainer(trainer);
+                trainerStorageService.addTrainer(trainer);
             } else {
                 return;
             }
