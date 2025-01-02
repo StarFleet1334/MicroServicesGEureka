@@ -7,14 +7,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @RestController
 @RequestMapping("/trainers")
@@ -38,6 +36,14 @@ public class TrainerController {
     @GetMapping
     public Collection<Trainer> getAllTrainers() {
         return trainerService.getAllTrainers();
+    }
+
+    @GetMapping("/search")
+    public List<Trainer> searchByName(
+            @RequestParam String firstName,
+            @RequestParam(required = false) String lastName
+    ) {
+        return trainerService.getTrainersByName(firstName, lastName);
     }
 
     public Trainer fallbackGetTrainerSummary(String username, Throwable throwable) {
