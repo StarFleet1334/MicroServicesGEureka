@@ -7,15 +7,11 @@ spring:
   cloud:
     compatibility-verifier:
       enabled: false
-  activemq:
-    broker-url: tcp://localhost:62626
-    user: admin
-    password: admin
-    packages:
-      trust-all: true
   mongodb:
     uri: mongodb://localhost:27017/workloadDB
     database: workloadDB
+  profiles:
+    active: local
 eureka:
   client:
     service-url:
