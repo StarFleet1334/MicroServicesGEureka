@@ -5,10 +5,14 @@ import com.micro.workload.repository.TrainerMongoRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 @Service
 public class TrainerService {
@@ -24,7 +28,11 @@ public class TrainerService {
 
     public Trainer getTrainerSummary(String username) {
         return trainerStorageService.getTrainer(username)
-                .orElseThrow(() -> new IllegalArgumentException("Trainer not found for username: " + username));
+                .orElseThrow(() -> {
+                    LOGGER.error("Trainer not found for username: {}", username);
+                    return new ResponseStatusException(NOT_FOUND,
+                            "Trainer not found for username: " + username);
+                });
     }
 
     public Collection<Trainer> getAllTrainers() {

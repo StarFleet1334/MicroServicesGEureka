@@ -18,6 +18,7 @@ public abstract class AbstractWorkLoadService implements BaseService {
         Trainer trainer = findTrainerByUsername(dto.getTrainerUserName());
 
         if (trainer == null && isAddition) {
+            LOGGER.info("Trainer not found. Creating new trainer: {}", dto.getTrainerUserName());
             trainer = new Trainer(
                     dto.getTrainerUserName(),
                     dto.getTrainerFirstName(),

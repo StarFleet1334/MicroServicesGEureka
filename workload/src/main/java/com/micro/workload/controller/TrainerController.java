@@ -47,13 +47,19 @@ public class TrainerController {
     }
 
     public Trainer fallbackGetTrainerSummary(String username, Throwable throwable) {
-        LOGGER.info("Invoking fallback method for getTrainerSummary for username:");
-        return null;
+        LOGGER.warn("Fallback triggered for getTrainerSummary for username={} due to {}",
+                username, throwable.toString());
+        throw new ResponseStatusException(HttpStatus.NOT_FOUND,
+                "Trainer not found (fallback).");
     }
 
     public Collection<Trainer> fallbackGetAllTrainers(Throwable throwable) {
         LOGGER.info("Invoking fallback method for getAllTrainers");
         return Collections.emptyList();
+    }
+
+    public TrainerService getTrainerService() {
+        return trainerService;
     }
 }
 

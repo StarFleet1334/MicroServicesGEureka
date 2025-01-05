@@ -31,7 +31,13 @@ public class WorkLoadController {
                 workLoadService.trainingDeleted(trainingSessionDTO);
                 break;
             default:
-                throw new IllegalArgumentException("Invalid action specified");
+                LOGGER.error("Invalid action specified: {}", trainingSessionDTO.getAction());
+                throw new IllegalArgumentException("Unknown action: " + trainingSessionDTO.getAction());
+
         }
+    }
+
+    public void setWorkLoadService(WorkLoadService workLoadService) {
+        this.workLoadService = workLoadService;
     }
 }

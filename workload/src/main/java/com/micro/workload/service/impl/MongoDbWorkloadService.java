@@ -14,7 +14,7 @@ public class MongoDbWorkloadService extends AbstractWorkLoadService {
 
     @Override
     public Trainer findTrainerByUsername(String username) {
-        return trainerMongoRepository.findById(username).orElse(NO_TRAINER);
+        return trainerMongoRepository.findById(username).orElse(null);
     }
 
     @Override

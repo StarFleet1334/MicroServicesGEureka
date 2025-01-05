@@ -14,12 +14,15 @@ public class TrainerStorageService {
 
     @CircuitBreaker(name = "trainerRepository", fallbackMethod = "fallbackGetTrainer")
     public Optional<Trainer> getTrainer(String username) {
+        System.out.println("Trainers part 2: " + trainers);
         return Optional.ofNullable(trainers.get(username));
     }
 
     @CircuitBreaker(name = "trainerRepository", fallbackMethod = "fallbackAddTrainer")
     public void addTrainer(Trainer trainer) {
         trainers.putIfAbsent(trainer.getUsername(), trainer);
+        System.out.println("Trainer added: " + trainer.getUsername());
+        System.out.println("Trainers part 1: " + trainers);
     }
 
     public Optional<Map<String, Trainer>> getAllTrainers() {

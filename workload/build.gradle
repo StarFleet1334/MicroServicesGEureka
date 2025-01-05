@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.5'
     id 'io.spring.dependency-management' version '1.1.6'
+    id "se.thinkcode.cucumber-runner" version "0.0.8"
 }
 
 group = 'com.micro'
@@ -41,6 +42,8 @@ dependencies {
     testImplementation 'org.mockito:mockito-core:5.4.0'
     testImplementation 'org.mockito:mockito-junit-jupiter:5.4.0'
 
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.3.4'
+
     // ActiveMQ dependencies
     implementation 'org.springframework.boot:spring-boot-starter-activemq:3.4.0'
 
@@ -48,6 +51,21 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
 
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'javax.annotation:javax.annotation-api:1.3.2'
+    // https://mvnrepository.com/artifact/io.cucumber/cucumber-junit
+    testImplementation 'io.cucumber:cucumber-junit:7.14.0'
+    testImplementation 'io.cucumber:cucumber-java:7.14.0'
+    testImplementation 'io.cucumber:cucumber-spring:7.14.0'
+    testImplementation 'io.cucumber:cucumber-testng:7.11.2'
+    // https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine
+    testImplementation 'org.junit.vintage:junit-vintage-engine:5.11.4'
+
+    implementation 'com.fasterxml.jackson.core:jackson-databind'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+
+    implementation 'io.swagger.core.v3:swagger-annotations:2.2.8'
+    implementation 'io.swagger.core.v3:swagger-models:2.2.8'
+
 
 }
 

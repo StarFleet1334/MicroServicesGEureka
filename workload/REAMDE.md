@@ -9,6 +9,17 @@
 * Since I used CompoundIndex, Spring Data will automatically use it for query matches that matched index fields
 * If you want to curl without usage of MongoDb Compass you can use: http://localhost:8081/trainers/search?firstName=#{firstName}&lastName=#{lastName} 
 
+
+
+# Run Cucumber Tests
+* Navigate to folder: cd workload
+* To run JMS cucumber test: gradle clean test --tests "com.micro.workload.JmsCucumberTest"
+* To run Trainer cucumber test: gradle clean test --tests "com.micro.workload.TrainerCucumberTest"
+* To run Workload cucumber test: gradle clean test --tests "com.micro.workload.WorkloadCucumberTest"
+* To run Integration cucumber test, first navigate into Main repository's README.md on how to run everything
+* and then run using: gradle clean test --tests "com.micro.workload.IntegrationTestRunner" or you can run manually using mouse click on class
+
+
 ## API Endpoints
 
 #### Get Trainer's yearly/monthly duration summary

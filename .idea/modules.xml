@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/MicroServiceEu.iml" filepath="$PROJECT_DIR$/MicroServiceEu.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/workload.main.iml" filepath="$PROJECT_DIR$/.idea/modules/workload.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/workload.test.iml" filepath="$PROJECT_DIR$/.idea/modules/workload.test.iml" />
     </modules>
   </component>
 </project>

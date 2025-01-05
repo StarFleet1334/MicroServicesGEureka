@@ -1,6 +1,7 @@
 package com.micro.workload.controller;
 
 import com.micro.workload.model.base.Trainer;
+import com.micro.workload.repository.TrainerMongoRepository;
 import com.micro.workload.service.impl.TrainerService;
 import com.micro.workload.service.impl.TrainerStorageService;
 import org.junit.jupiter.api.DisplayName;
@@ -33,6 +34,10 @@ class TrainerControllerTest {
 
     @MockBean
     private TrainerService trainerService;
+
+    @MockBean
+    private TrainerMongoRepository trainerMongoRepository;
+
 
     @Test
     @DisplayName("GET /trainers/{username} - Success")
@@ -93,7 +98,7 @@ class TrainerControllerTest {
     @DisplayName("getTrainerSummary returns Trainer if found, otherwise throws exception")
     void testGetTrainerSummary() {
         TrainerStorageService trainerStorageService = Mockito.mock(TrainerStorageService.class);
-        TrainerService trainerService = new TrainerService(trainerStorageService);
+        TrainerService trainerService = new TrainerService(trainerStorageService,trainerMongoRepository);
 
         Trainer expectedTrainer = new Trainer();
         expectedTrainer.setUsername("john");
@@ -116,7 +121,7 @@ class TrainerControllerTest {
     @DisplayName("getAllTrainers returns all trainer objects if present, otherwise empty list")
     void testGetAllTrainers() {
         TrainerStorageService trainerStorageService = Mockito.mock(TrainerStorageService.class);
-        TrainerService trainerService = new TrainerService(trainerStorageService);
+        TrainerService trainerService = new TrainerService(trainerStorageService,trainerMongoRepository);
 
         Map<String, Trainer> mockMap = new ConcurrentHashMap<>();
         Trainer t1 = new Trainer();

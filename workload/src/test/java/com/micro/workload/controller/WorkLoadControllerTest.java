@@ -46,9 +46,14 @@ class WorkLoadControllerTest {
 
     @Test
     void testHandleTraining_missingTransactionId() throws Exception {
-        TrainingSessionDTO request = new TrainingSessionDTO(
-                "trainer123", "John", "Doe", true, LocalDate.now(), 2, "add"
-        );
+        TrainingSessionDTO request = new TrainingSessionDTO();
+        request.setTrainerUserName("trainer123");
+        request.setTrainerFirstName("John");
+        request.setTrainerLastName("Doe");
+        request.setActive(true);
+        request.setTrainingDate(LocalDate.now());
+        request.setTrainingDuration(2);
+        request.setAction("add");
         performPost(request, null).andExpect(status().isBadRequest());
     }
 

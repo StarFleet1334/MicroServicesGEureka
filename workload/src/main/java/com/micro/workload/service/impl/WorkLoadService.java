@@ -13,12 +13,16 @@ public class WorkLoadService extends AbstractWorkLoadService {
 
     @Override
     public Trainer findTrainerByUsername(String username) {
-        return trainerStorageService.getTrainer(username).orElse(NO_TRAINER);
+        return trainerStorageService.getTrainer(username).orElse(null);
     }
 
     @Override
     public void saveTrainer(Trainer trainer) {
         trainerStorageService.addTrainer(trainer);
+    }
+
+    public TrainerStorageService getTrainerStorageService() {
+        return trainerStorageService;
     }
 }
 
