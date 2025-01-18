@@ -21,6 +21,7 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -133,6 +134,7 @@ public class TrainingIntegrationSteps {
         UserResponseDTO user = trainerResponse.getBody();
         if (user != null) {
             this.trainerUserName = user.getUsername();
+            LOGGER.info("Created trainer with username: {}", this.trainerUserName);
         }
         LOGGER.info("Created trainer: {} {} with training type {}", firstName, lastName, trainingTypeName);
     }
@@ -152,12 +154,14 @@ public class TrainingIntegrationSteps {
         requestPayload.setAction(row.get("action"));
 
 
+
         HttpHeaders headers = createAuthenticatedHeaders();
         HttpEntity<TrainingSessionDTO> requestEntity = new HttpEntity<>(requestPayload, headers);
 
         String url = microservice1BaseUrl + endpoint;
         try {
             lastResponse = restTemplate.postForEntity(url, requestEntity, String.class);
+            LOGGER.info("Received response from post on mongoDB: {}", lastResponse.getBody());
         } catch (HttpClientErrorException ex) {
             lastResponse = new ResponseEntity<>(ex.getResponseBodyAsString(), ex.getStatusCode());
             LOGGER.info("Received error response: {}", lastResponse.getBody());
@@ -176,6 +180,11 @@ public class TrainingIntegrationSteps {
     public void microserviceDatabaseShouldContainATrainingSessionForWithYearWithMonthAndWithNumber(
             int microserviceNumber, String yearStr, String monthStr, String expectedHoursStr) {
 
+        LOGGER.info("Finding Trainer with username: {}", this.trainerUserName);
+        List<Trainer> list = trainerMongoRepository.findAll();
+        for (Trainer x : list) {
+            LOGGER.info("Found trainers in database with username: {}", x.getUsername());
+        }
         Trainer trainer = trainerMongoRepository.findById(this.trainerUserName).orElse(null);
         Assert.assertNotNull("Trainer not found in the database", trainer);
 

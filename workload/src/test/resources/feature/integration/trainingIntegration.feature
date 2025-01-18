@@ -8,18 +8,18 @@ Feature: End-to-end training session integration
     And Microservice #2 is running on port 8081
     And I am logged in as admin with password admin on url "/api/login"
 
-  Scenario: Create a training session as admin
+  Scenario: Create a training session
     Given I have a training type with name "Yoga Training"
-    And I have a trainer with firstName "John", lastName "Doe" and training type "Yoga Training"
+    Given I have a trainer with firstName "John", lastName "Doe" and training type "Yoga Training"
     When I send a request to "/api/trainings/session" on Microservice #1 with:
-      | trainerFirstName | trainerLastName | isActive | trainingDate  | trainingDuration | action |
-      | John             | Doe             | true     | 2025-01-10    | 2                | add    |
+      | trainerFirstName | trainerLastName | isActive | trainingDate | trainingDuration | action |
+      | John             | Doe             | true     | 2025-10-10    | 2                | add    |
     Then the HTTP response code should be 201
-    And Microservice #2 database should contain a training session with year "2025" with month "01" and with number "2"
+    And Microservice #2 database should contain a training session with year "2025" with month "10" and with number "2"
 
   Scenario: Delete a training session
     Given I have a training type with name "Personal Training"
-    And I have a trainer with firstName "Alice", lastName "Smith" and training type "Personal Training"
+    Given I have a trainer with firstName "Alice", lastName "Smith" and training type "Personal Training"
     And I have a training session in Microservice #1 with:
       | trainerFirstName | trainerLastName | isActive | trainingDate  | trainingDuration | action |
       | Alice            | Smith           | true     | 2025-01-20    | 3                | add    |
