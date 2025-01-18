@@ -1,5 +1,4 @@
-package com.micro.workload;
-
+package com.micro.workload.workloadComponentTest;
 
 
 import io.cucumber.junit.Cucumber;
@@ -8,12 +7,11 @@ import org.junit.runner.RunWith;
 
 @RunWith(Cucumber.class)
 @CucumberOptions(
-        features = "src/test/resources/feature/jms",
-        glue = "com.micro.workload.steps.jms",
+        features = "src/test/resources/feature/workload",
+        glue = "com.micro.workload.workloadComponentTest.steps",
         plugin = {"pretty", "html:target/new-reports.html", "json:target/cucumber.json"},
         monochrome = true,
         publish = true
 )
-public class JmsCucumberTest {
-
+public class WorkloadCucumberTest {
 }

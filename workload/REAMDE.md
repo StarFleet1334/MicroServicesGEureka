@@ -13,11 +13,11 @@
 
 # Run Cucumber Tests
 * Navigate to folder: cd workload
-* To run JMS cucumber test: gradle clean test --tests "com.micro.workload.JmsCucumberTest"
-* To run Trainer cucumber test: gradle clean test --tests "com.micro.workload.TrainerCucumberTest"
-* To run Workload cucumber test: gradle clean test --tests "com.micro.workload.WorkloadCucumberTest"
+* To run JMS cucumber test: gradle clean test --tests "com.micro.workload.jms.JmsCucumberTest"
+* To run Trainer cucumber test: gradle clean test --tests "com.micro.workload.trainerComponentTest.TrainerCucumberTest"
+* To run Workload cucumber test: gradle clean test --tests "com.micro.workload.workloadComponentTest.WorkloadCucumberTest"
 * To run Integration cucumber test, first navigate into Main repository's README.md on how to run everything
-* and then run using: gradle clean test --tests "com.micro.workload.IntegrationTestRunner" or you can run manually using mouse click on class
+* and then run using: gradle clean test --tests "com.micro.workload.integration.IntegrationTestRunner" or you can run manually using mouse click on class
 
 
 ## API Endpoints

@@ -7,11 +7,16 @@ spring:
   cloud:
     compatibility-verifier:
       enabled: false
-  mongodb:
-    uri: mongodb://localhost:27017/workloadDB
-    database: workloadDB
   profiles:
     active: dev
+
+my:
+  jms:
+    broker-url: tcp://localhost:62626
+    user: artemis
+    password: simply-artemis
+    queue-name: trainings.queue
+
 eureka:
   client:
     service-url:

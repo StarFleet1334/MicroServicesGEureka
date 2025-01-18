@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.workload.model.dto.TrainingSessionDTO;
 import com.micro.workload.service.impl.MongoDbWorkloadService;
 import com.micro.workload.service.impl.WorkLoadService;
-import com.micro.workload.utils.ActiveMQConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,11 +26,11 @@ public class JmsConsumer {
         this.mongoDbWorkloadService = mongoDbWorkloadService;
     }
 
-    @JmsListener(destination = ActiveMQConstants.TRAININGS_QUEUE, containerFactory = "jmsListenerContainerFactory")
+    @JmsListener(destination =  "${my.jms.queue-name}", containerFactory = "jmsListenerContainerFactory")
     public void onMessage(String message, @Header(name = "TransactionID", required = false) String transactionId) {
         try {
             TrainingSessionDTO dto = objectMapper.readValue(message, TrainingSessionDTO.class);
-            LOGGER.info("Received message from Queue: {} with TransactionID: {}", ActiveMQConstants.TRAININGS_QUEUE, transactionId);
+            LOGGER.info("Received message from Queue: {} with TransactionID: {}",  "${my.jms.queue-name}", transactionId);
 
             switch (dto.getAction()) {
                 case "add":

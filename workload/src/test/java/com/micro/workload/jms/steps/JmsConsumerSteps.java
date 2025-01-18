@@ -1,11 +1,10 @@
-package com.micro.workload.steps.jms;
+package com.micro.workload.jms.steps;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.micro.workload.messaging.JmsConsumer;
 import com.micro.workload.model.dto.TrainingSessionDTO;
 import com.micro.workload.service.impl.MongoDbWorkloadService;
 import com.micro.workload.service.impl.WorkLoadService;
-import com.micro.workload.utils.ActiveMQConstants;
 import io.cucumber.spring.CucumberContextConfiguration;
 import org.junit.jupiter.api.Assertions;
 import org.mockito.InjectMocks;
@@ -64,7 +63,7 @@ public class JmsConsumerSteps {
         trainingSessionDTO.setTrainingDuration(3);
         trainingSessionDTO.setAction(action);
         message = objectMapper.writeValueAsString(trainingSessionDTO);
-        jmsTemplate.convertAndSend(ActiveMQConstants.TRAININGS_QUEUE, message);
+        jmsTemplate.convertAndSend("${my.jms.queue-name}", message);
     }
 
     @When("the JmsConsumer processes the message")
@@ -104,7 +103,7 @@ public class JmsConsumerSteps {
         trainingSessionDTO.setTrainingDuration(3);
         trainingSessionDTO.setAction("invalidAction");
         message = objectMapper.writeValueAsString(trainingSessionDTO);
-        jmsTemplate.convertAndSend(ActiveMQConstants.TRAININGS_QUEUE, message);
+        jmsTemplate.convertAndSend("${my.jms.queue-name}", message);
     }
 
     @Then("an {string} error is logged")
@@ -115,7 +114,7 @@ public class JmsConsumerSteps {
     @Given("a message with invalid format is sent to the queue")
     public void a_message_with_invalid_format_is_sent_to_the_queue() {
         message = "INVALID_MESSAGE_FORMAT";
-        jmsTemplate.convertAndSend(ActiveMQConstants.TRAININGS_QUEUE, message);
+        jmsTemplate.convertAndSend("${my.jms.queue-name}", message);
     }
 
     @Then("no actions are performed on the workload services")

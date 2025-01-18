@@ -1,4 +1,4 @@
-package com.micro.workload.steps.trainer;
+package com.micro.workload.trainerComponentTest.steps;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

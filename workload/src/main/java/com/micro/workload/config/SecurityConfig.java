@@ -1,6 +1,5 @@
 package com.micro.workload.config;
 
-import com.micro.workload.security.JwtTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -18,8 +17,5 @@ public class SecurityConfig {
                         .anyRequest().permitAll());
         return http.build();
     }
-
-
-
 
 }

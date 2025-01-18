@@ -1,9 +1,8 @@
-package com.micro.workload.steps.workload;
+package com.micro.workload.workloadComponentTest.steps;
 
 import com.micro.workload.controller.WorkLoadController;
 import com.micro.workload.model.base.Trainer;
 import com.micro.workload.model.dto.TrainingSessionDTO;
-import com.micro.workload.service.impl.TrainerService;
 import com.micro.workload.service.impl.WorkLoadService;
 import io.cucumber.java.en.*;
 import io.cucumber.spring.CucumberContextConfiguration;

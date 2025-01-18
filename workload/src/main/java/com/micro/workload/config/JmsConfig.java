@@ -1,8 +1,8 @@
 package com.micro.workload.config;
 
-import com.micro.workload.utils.ActiveMQConstants;
 import jakarta.jms.ConnectionFactory;
 import org.apache.activemq.ActiveMQConnectionFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -14,12 +14,24 @@ import org.springframework.jms.connection.CachingConnectionFactory;
 @EnableJms
 public class JmsConfig {
 
+    @Value("${my.jms.broker-url}")
+    private String brokerUrl;
+
+    @Value("${my.jms.user}")
+    private String user;
+
+    @Value("${my.jms.password}")
+    private String password;
+
+    @Value("${my.jms.queue-name}")
+    private String queueName;
+
     @Bean
     @Primary
     public ConnectionFactory connectionFactory() {
-        ActiveMQConnectionFactory cf = new ActiveMQConnectionFactory(ActiveMQConstants.BROKER_URL);
-        cf.setUserName(ActiveMQConstants.USER);
-        cf.setPassword(ActiveMQConstants.PASSWORD);
+        ActiveMQConnectionFactory cf = new ActiveMQConnectionFactory(brokerUrl);
+        cf.setUserName(user);
+        cf.setPassword(password);
         return cf;
     }
 

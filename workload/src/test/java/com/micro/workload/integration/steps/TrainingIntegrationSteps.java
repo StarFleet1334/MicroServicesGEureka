@@ -1,4 +1,4 @@
-package com.micro.workload.steps.integration;
+package com.micro.workload.integration.steps;
 
 import com.micro.workload.model.base.MonthSummary;
 import com.micro.workload.model.base.Trainer;

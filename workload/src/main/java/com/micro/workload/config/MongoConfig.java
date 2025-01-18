@@ -2,6 +2,7 @@ package com.micro.workload.config;
 
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.mongodb.config.AbstractMongoClientConfiguration;
@@ -12,15 +13,20 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 @EnableMongoRepositories(basePackages = "com.micro.workload.repository")
 public class MongoConfig extends AbstractMongoClientConfiguration {
 
+    @Value("${spring.data.mongodb.uri}")
+    private String mongoUri;
+
     @Override
     protected String getDatabaseName() {
-        return "workloadDB";
+        String[] uriParts = mongoUri.split("/");
+        String dbName = uriParts[uriParts.length - 1];
+        return dbName.split("\\?")[0];
     }
 
     @Bean
     @Override
     public MongoClient mongoClient() {
-        return MongoClients.create("mongodb://localhost:27017/workloadDB");
+        return MongoClients.create(mongoUri);
     }
 
     @Override

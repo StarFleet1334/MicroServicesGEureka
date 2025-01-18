@@ -1,0 +1,7 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+  data:
+    mongodb:
+      uri: mongodb://your-production-host:27017/workloadDBProd
