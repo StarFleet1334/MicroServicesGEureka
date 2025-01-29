@@ -1,0 +1,33 @@
+version: '3.8'
+
+networks:
+  gym-network:
+    driver: bridge
+
+services:
+  discovery:
+    build:
+      context: ./discovery
+    container_name: discovery_service
+    ports:
+      - "8761:8761"
+    networks:
+      - gym-network
+  workload:
+    build:
+      context: ./workload
+    container_name: workload_service
+    ports:
+      - "8081:8081"
+    depends_on:
+      - discovery
+    networks:
+      - gym-network
+    environment:
+      - SPRING_PROFILES_ACTIVE=dev
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery:8761/eureka
+      - MY_JMS_BROKER_URL=tcp://host.docker.internal:63636
+      - MY_JMS_USER=admin
+      - MY_JMS_PASSWORD=admin
+      - MY_JMS_QUEUE_NAME=trainings.queue
+      - SPRING_DATA_MONGODB_URI=mongodb://host.docker.internal:27017/workloadDBDev

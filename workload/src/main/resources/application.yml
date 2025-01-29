@@ -12,9 +12,9 @@ spring:
 
 my:
   jms:
-    broker-url: tcp://localhost:62626
-    user: artemis
-    password: simply-artemis
+    broker-url: tcp://localhost:63636
+    user: admin
+    password: admin
     queue-name: trainings.queue
 
 eureka:
